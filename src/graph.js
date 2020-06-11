@@ -18,6 +18,11 @@ const detectPaths = function (paths, pair) {
 
 const bfs = function (pairs, source, target) {
   const paths = pairs.reduce(detectPaths, {});
+
+  if (source === target) {
+    return paths[source].includes(target);
+  }
+
   const visited = [];
   const toVisit = [source];
 

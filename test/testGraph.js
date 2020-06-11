@@ -34,7 +34,11 @@ describe('bfs', function () {
     assert.isTrue(bfs(testData, 'mm', 'ii'));
   });
 
-  // it('should detect an edge from a vertex to itself if exists', function () {});
+  it('should detect an edge from a vertex to itself if exists', function () {
+    assert.isTrue(bfs(testData, 'nn', 'nn'));
+  });
 
-  // it('should report absence of an edge from a vertex to itself', function () {});
+  it('should report absence of an edge from a vertex to itself', function () {
+    assert.isFalse(bfs(testData, 'kk', 'kk'));
+  });
 });
