@@ -39,6 +39,6 @@ describe('bfs', function () {
   });
 
   it('should report absence of an edge from a vertex to itself', function () {
-    assert.isFalse(bfs(testData, 'kk', 'kk'));
+    assert.isFalse(bfs(testData, 'ii', 'ii'));
   });
 });
