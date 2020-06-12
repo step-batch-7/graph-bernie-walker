@@ -24,8 +24,8 @@ const deepSearch = function (paths, source, target, visited = []) {
   visited.push(source);
 
   return adjacentVertices.some(
-    (node) =>
-      !visited.includes(node) && deepSearch(paths, node, target, visited)
+    (vertex) =>
+      !visited.includes(vertex) && deepSearch(paths, vertex, target, visited)
   );
 };
 
