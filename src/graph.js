@@ -16,7 +16,7 @@ const detectPaths = function (paths, pair) {
   return paths;
 };
 
-const deepSearch = function (paths, visited, source, target) {
+const deepSearch = function (paths, source, target, visited = []) {
   const adjacentVertices = paths[source];
 
   if (!adjacentVertices) {
@@ -33,7 +33,7 @@ const deepSearch = function (paths, visited, source, target) {
     let isFound = false;
 
     if (!visited.includes(nextNode)) {
-      isFound = deepSearch(paths, visited, nextNode, target);
+      isFound = deepSearch(paths, nextNode, target, visited);
     }
 
     if (isFound) {
@@ -46,7 +46,7 @@ const deepSearch = function (paths, visited, source, target) {
 
 const dfs = function (pairs, source, target) {
   const paths = pairs.reduce(detectPaths, {});
-  return deepSearch(paths, [], source, target);
+  return deepSearch(paths, source, target);
 };
 
 const bfs = function (pairs, source, target) {
