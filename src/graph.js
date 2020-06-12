@@ -1,9 +1,3 @@
-//Example
-// Pairs => [[from,to],[to,from]]
-// Source => from
-// To => to
-// Should return true.
-
 const detectPaths = function (paths, pair) {
   const [from, to] = pair;
 
@@ -28,20 +22,11 @@ const deepSearch = function (paths, source, target, visited = []) {
   }
 
   visited.push(source);
-  for (let index = 0; index < adjacentVertices.length; index++) {
-    const nextNode = adjacentVertices[index];
-    let isFound = false;
 
-    if (!visited.includes(nextNode)) {
-      isFound = deepSearch(paths, nextNode, target, visited);
-    }
-
-    if (isFound) {
-      return isFound;
-    }
-  }
-
-  return false;
+  return adjacentVertices.some(
+    (node) =>
+      !visited.includes(node) && deepSearch(paths, node, target, visited)
+  );
 };
 
 const dfs = function (pairs, source, target) {
