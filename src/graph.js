@@ -16,6 +16,39 @@ const detectPaths = function (paths, pair) {
   return paths;
 };
 
+const deepSearch = function (paths, visited, source, target) {
+  const adjacentVertices = paths[source];
+
+  if (!adjacentVertices) {
+    return false;
+  }
+
+  if (adjacentVertices.includes(target)) {
+    return true;
+  }
+
+  visited.push(source);
+  for (let index = 0; index < adjacentVertices.length; index++) {
+    const nextNode = adjacentVertices[index];
+    let isFound = false;
+
+    if (!visited.includes(nextNode)) {
+      isFound = deepSearch(paths, visited, nextNode, target);
+    }
+
+    if (isFound) {
+      return isFound;
+    }
+  }
+
+  return false;
+};
+
+const dfs = function (pairs, source, target) {
+  const paths = pairs.reduce(detectPaths, {});
+  return deepSearch(paths, [], source, target);
+};
+
 const bfs = function (pairs, source, target) {
   const paths = pairs.reduce(detectPaths, {});
   const visited = [];
@@ -45,4 +78,4 @@ const bfs = function (pairs, source, target) {
   return false;
 };
 
-module.exports = { bfs };
+module.exports = { bfs, dfs };
