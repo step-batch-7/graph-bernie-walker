@@ -1,5 +1,5 @@
 const { assert } = require('chai');
-const { bfs, dfs, recordConnections } = require('../src/graph');
+const { bfs, dfs, findPath, recordConnections } = require('../src/graph');
 
 describe('graphTraversal', function () {
   const testData = [
@@ -9,9 +9,9 @@ describe('graphTraversal', function () {
     ['mm', 'll'],
     ['ll', 'jj'],
     ['jj', 'kk'],
-    ['kk', 'ii'],
     ['kk', 'jj'],
     ['kk', 'mm'],
+    ['kk', 'ii'],
   ];
 
   context('bfs', function () {
@@ -73,6 +73,38 @@ describe('graphTraversal', function () {
 
     it('should report absence of an edge from a vertex to itself', function () {
       assert.isFalse(dfs(adjacencyList, 'ii', 'ii'));
+    });
+  });
+
+  context('findPath', function () {
+    it('should not find the path when source has no outgoing edges', function () {
+      assert.deepStrictEqual(findPath(adjacencyList, 'oo', 'mm'), []);
+    });
+
+    it('should find a path between adjacent vertices', function () {
+      assert.deepStrictEqual(findPath(adjacencyList, 'mm', 'll'), ['mm', 'll']);
+    });
+
+    it('should should not find a path if does not exist', function () {
+      assert.deepStrictEqual(findPath(adjacencyList, 'nn', 'mm'), []);
+    });
+
+    it('should find the path between two non-adjacent vertices', function () {
+      const expected = ['mm', 'll', 'jj'];
+      assert.deepStrictEqual(findPath(adjacencyList, 'mm', 'jj'), expected);
+    });
+
+    it('should be able find path when there are looped connections', function () {
+      const expected = ['mm', 'll', 'jj', 'kk', 'ii'];
+      assert.deepStrictEqual(findPath(adjacencyList, 'mm', 'ii'), expected);
+    });
+
+    it('should find a path from a vertex to itself if exists', function () {
+      assert.deepStrictEqual(findPath(adjacencyList, 'nn', 'nn'), ['nn', 'nn']);
+    });
+
+    it('should not find a path from a vertex to itself if does not exist', function () {
+      assert.deepStrictEqual(findPath(adjacencyList, 'ii', 'ii'), []);
     });
   });
 });

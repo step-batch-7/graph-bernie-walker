@@ -58,4 +58,28 @@ const dfs = function (connections, source, target, visited = []) {
   );
 };
 
-module.exports = { bfs, dfs, recordConnections };
+const findPath = function (connections, source, target, visited = []) {
+  const adjacentVertices = connections[source] || [];
+
+  visited.push(source);
+
+  for (const vertex of adjacentVertices) {
+    if (vertex === target) {
+      return [source, vertex];
+    }
+
+    if (visited.includes(vertex)) {
+      continue;
+    }
+
+    const foundPath = findPath(connections, vertex, target, visited);
+
+    if (foundPath.length) {
+      return [source].concat(foundPath);
+    }
+  }
+
+  return [];
+};
+
+module.exports = { bfs, dfs, findPath, recordConnections };
