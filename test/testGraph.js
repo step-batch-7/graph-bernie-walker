@@ -1,5 +1,5 @@
 const { assert } = require('chai');
-const { bfs, dfs } = require('../src/graph');
+const { bfs, dfs, detectPaths } = require('../src/graph');
 
 describe('graphTraversal', function () {
   const testData = [
@@ -45,32 +45,33 @@ describe('graphTraversal', function () {
   });
 
   context('dfs', function () {
+    const adjacencyList = testData.reduce(detectPaths);
     it('should return false if the source vertex has no outgoing edges', function () {
-      assert.isFalse(dfs(testData, 'oo', 'mm'));
+      assert.isFalse(dfs(adjacencyList, 'oo', 'mm'));
     });
 
     it('should detect a edge between adjacent vertices', function () {
-      assert.isTrue(dfs(testData, 'mm', 'll'));
+      assert.isTrue(dfs(adjacencyList, 'mm', 'll'));
     });
 
     it('should report absence of an edge between two nodes', function () {
-      assert.isFalse(dfs(testData, 'nn', 'mm'));
+      assert.isFalse(dfs(adjacencyList, 'nn', 'mm'));
     });
 
     it('should detect the edge between two non-adjacent vertices', function () {
-      assert.isTrue(dfs(testData, 'mm', 'jj'));
+      assert.isTrue(dfs(adjacencyList, 'mm', 'jj'));
     });
 
     it('should be able to detect the edges when there is looping in the path', function () {
-      assert.isTrue(dfs(testData, 'mm', 'ii'));
+      assert.isTrue(dfs(adjacencyList, 'mm', 'ii'));
     });
 
     it('should detect an edge from a vertex to itself if exists', function () {
-      assert.isTrue(dfs(testData, 'nn', 'nn'));
+      assert.isTrue(dfs(adjacencyList, 'nn', 'nn'));
     });
 
     it('should report absence of an edge from a vertex to itself', function () {
-      assert.isFalse(dfs(testData, 'ii', 'ii'));
+      assert.isFalse(dfs(adjacencyList, 'ii', 'ii'));
     });
   });
 });

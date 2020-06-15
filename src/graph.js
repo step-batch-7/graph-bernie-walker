@@ -10,30 +10,6 @@ const detectPaths = function (paths, pair) {
   return paths;
 };
 
-const deepSearch = function (paths, source, target, visited = []) {
-  const adjacentVertices = paths[source];
-
-  if (!adjacentVertices) {
-    return false;
-  }
-
-  if (adjacentVertices.includes(target)) {
-    return true;
-  }
-
-  visited.push(source);
-
-  return adjacentVertices.some(
-    (vertex) =>
-      !visited.includes(vertex) && deepSearch(paths, vertex, target, visited)
-  );
-};
-
-const dfs = function (pairs, source, target) {
-  const paths = pairs.reduce(detectPaths, {});
-  return deepSearch(paths, source, target);
-};
-
 const bfs = function (pairs, source, target) {
   const paths = pairs.reduce(detectPaths, {});
   const visited = [];
@@ -63,4 +39,22 @@ const bfs = function (pairs, source, target) {
   return false;
 };
 
-module.exports = { bfs, dfs };
+const dfs = function (paths, source, target, visited = []) {
+  const adjacentVertices = paths[source];
+
+  if (!adjacentVertices) {
+    return false;
+  }
+
+  if (adjacentVertices.includes(target)) {
+    return true;
+  }
+
+  visited.push(source);
+
+  return adjacentVertices.some(
+    (vertex) => !visited.includes(vertex) && dfs(paths, vertex, target, visited)
+  );
+};
+
+module.exports = { bfs, dfs, detectPaths };
