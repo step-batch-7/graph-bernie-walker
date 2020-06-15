@@ -1,23 +1,23 @@
-const detectPaths = function (paths, pair) {
+const recordConnections = function (connections, pair) {
   const [from, to] = pair;
 
-  if (!paths[from]) {
-    paths[from] = [];
+  if (!connections[from]) {
+    connections[from] = [];
   }
 
-  paths[from].push(to);
+  connections[from].push(to);
 
-  return paths;
+  return connections;
 };
 
 const bfs = function (pairs, source, target) {
-  const paths = pairs.reduce(detectPaths, {});
+  const connections = pairs.reduce(recordConnections, {});
   const visited = [];
   const toVisit = [source];
 
   while (toVisit.length) {
     const vertexToProcess = toVisit.shift();
-    const adjacentVertices = paths[vertexToProcess];
+    const adjacentVertices = connections[vertexToProcess];
 
     if (!adjacentVertices) {
       continue;
@@ -39,8 +39,8 @@ const bfs = function (pairs, source, target) {
   return false;
 };
 
-const dfs = function (paths, source, target, visited = []) {
-  const adjacentVertices = paths[source];
+const dfs = function (connections, source, target, visited = []) {
+  const adjacentVertices = connections[source];
 
   if (!adjacentVertices) {
     return false;
@@ -53,8 +53,9 @@ const dfs = function (paths, source, target, visited = []) {
   visited.push(source);
 
   return adjacentVertices.some(
-    (vertex) => !visited.includes(vertex) && dfs(paths, vertex, target, visited)
+    (vertex) =>
+      !visited.includes(vertex) && dfs(connections, vertex, target, visited)
   );
 };
 
-module.exports = { bfs, dfs, detectPaths };
+module.exports = { bfs, dfs, recordConnections };

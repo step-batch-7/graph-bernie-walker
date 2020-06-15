@@ -1,5 +1,5 @@
 const { assert } = require('chai');
-const { bfs, dfs, detectPaths } = require('../src/graph');
+const { bfs, dfs, recordConnections } = require('../src/graph');
 
 describe('graphTraversal', function () {
   const testData = [
@@ -44,8 +44,9 @@ describe('graphTraversal', function () {
     });
   });
 
+  const adjacencyList = testData.reduce(recordConnections);
+
   context('dfs', function () {
-    const adjacencyList = testData.reduce(detectPaths);
     it('should return false if the source vertex has no outgoing edges', function () {
       assert.isFalse(dfs(adjacencyList, 'oo', 'mm'));
     });
